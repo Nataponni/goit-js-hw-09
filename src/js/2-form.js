@@ -3,15 +3,31 @@ document
   .querySelector('textarea[name="message"]')
   .classList.add('textarea-message');
 document.querySelector('button[type="submit"]').classList.add('submit');
-const labels = document.querySelectorAll('form.feedback-form label');
-if (labels.length > 0) {
-  labels[0].classList.add('label');
-  labels[1].classList.add('label');
-}
 
 const form = document.querySelector('.feedback-form');
 const textarea = document.querySelector('textarea');
 const STORAGE_KEY = 'feedback-form-state';
+
+function saveDataToLocalStorage() {
+  const message = textarea.value.trim();
+  const email = form.elements.email.value.trim();
+  const data = JSON.stringify({ email, message });
+  localStorage.setItem(STORAGE_KEY, data);
+}
+
+function loadDataFromLocalStorage() {
+  const savedData = localStorage.getItem(STORAGE_KEY);
+  if (savedData) {
+    const { email, message } = JSON.parse(savedData);
+    textarea.value = message;
+    form.elements.email.value = email;
+  }
+}
+
+form.elements.email.addEventListener('input', saveDataToLocalStorage);
+textarea.addEventListener('input', saveDataToLocalStorage);
+
+loadDataFromLocalStorage();
 
 function formSubmitHandler(event) {
   event.preventDefault();
@@ -21,14 +37,11 @@ function formSubmitHandler(event) {
     alert('Заповніть всі поля, будь ласка');
     return;
   }
-  const data = JSON.stringify({ email, message });
-  localStorage.setItem(STORAGE_KEY, data);
+
+  form.reset();
+  localStorage.removeItem(STORAGE_KEY);
+
+  console.log('Email:', email, 'Message:', message);
 }
 
 form.addEventListener('submit', formSubmitHandler);
-
-const jsn = localStorage.getItem(STORAGE_KEY);
-const data = JSON.parse(jsn);
-textarea.value = data.message;
-form.elements.email.value = data.email;
-console.log(data);

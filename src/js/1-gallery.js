@@ -1,4 +1,6 @@
-export const images = [
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+const images = [
   {
     preview:
       'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
@@ -64,8 +66,7 @@ export const images = [
   },
 ];
 
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+
 
 const container = document.querySelector('.gallery');
 container.innerHTML = createMarkup(images);
