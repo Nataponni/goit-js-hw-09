@@ -1,9 +1,3 @@
-document.querySelector('input[name="email"]').classList.add('input-email');
-document
-  .querySelector('textarea[name="message"]')
-  .classList.add('textarea-message');
-document.querySelector('button[type="submit"]').classList.add('submit');
-
 const form = document.querySelector('.feedback-form');
 const textarea = document.querySelector('textarea');
 const STORAGE_KEY = 'feedback-form-state';
@@ -41,7 +35,11 @@ function formSubmitHandler(event) {
   form.reset();
   localStorage.removeItem(STORAGE_KEY);
 
-  console.log('Email:', email, 'Message:', message);
+  var resultObject = {
+    email: email,
+    message: message
+};
+console.log(resultObject);
 }
 
 form.addEventListener('submit', formSubmitHandler);
